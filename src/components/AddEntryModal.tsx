@@ -1,14 +1,32 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { Entries } from "./ModeTab";
 
-type modalProps = {
+interface ModalProps {
   show: boolean;
   handleClose: () => void;
-};
+  entries: Entries[];
+  setEntries: Dispatch<SetStateAction<Entries[]>>;
+}
 
-const EntryModal = ({ show, handleClose }: modalProps) => {
+const EntryModal = ({ show, handleClose, entries, setEntries }: ModalProps) => {
+  const [entryMonth, setEntryMonth] = useState("");
+
+  const getCurrentMonth = () => {
+    const d = new Date();
+    let year = d.getFullYear();
+    let month = String(d.getMonth() + 1).padStart(2, "0");
+
+    return `${year}-${month}`;
+  };
+
+  function monthExists(month: string) {
+    return entries.some(function (el) {
+      return el.month === month;
+    });
+  }
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -18,9 +36,10 @@ const EntryModal = ({ show, handleClose }: modalProps) => {
         <form className="d-flex flex-column mx-3 mb-4">
           <label>Month</label>
           <input
+            onChange={(e) => setEntryMonth(e.target.value)}
             type="month"
-            id="validationCustom01"
-            placeholder="First name"
+            id="entryMonth"
+            max={getCurrentMonth()}
           />
         </form>
       </Modal.Body>
@@ -28,7 +47,15 @@ const EntryModal = ({ show, handleClose }: modalProps) => {
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleClose}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            if (!monthExists(entryMonth)) {
+              setEntries((prevArray) => [...prevArray, { month: entryMonth }]);
+            }
+            handleClose();
+          }}
+        >
           Add entry
         </Button>
       </Modal.Footer>

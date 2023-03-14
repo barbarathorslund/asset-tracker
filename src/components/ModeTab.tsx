@@ -4,9 +4,16 @@ import Tabs from "react-bootstrap/Tabs";
 import Summary from "./Summary";
 import Tracker from "./Tracker";
 
-const ModeTab = () => {
+export interface Entries {
+  month: string;
+}
+
+export const ModeTab = () => {
   const [assetTypes, setAssetTypes] = useState([]);
-  const [entries, setEntries] = useState(["January 2023", "February 2023"]);
+  const [entries, setEntries] = useState<Entries[]>([
+    { month: "2023-01" },
+    { month: "2023-02" },
+  ]);
   const [currentMonth, setCurrentMonth] = useState("");
 
   return (
@@ -19,10 +26,8 @@ const ModeTab = () => {
         <Summary />
       </Tab>
       <Tab eventKey="tracker" title="Tracker">
-        <Tracker />
+        <Tracker entries={entries} setEntries={setEntries} />
       </Tab>
     </Tabs>
   );
 };
-
-export default ModeTab;

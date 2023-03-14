@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import ModeTab from "./components/ModeTab";
+import { ModeTab } from "./components/ModeTab";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

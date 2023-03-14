@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
+import { Entries } from "./ModeTab";
 
-const Tracker = () => {
+interface TrackerProps {
+  entries: Entries[];
+  setEntries: Dispatch<SetStateAction<Entries[]>>;
+}
+
+const Tracker = ({ entries, setEntries }: TrackerProps) => {
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
@@ -22,10 +28,13 @@ const Tracker = () => {
         <AddEntryModal
           show={showAddEntryModal}
           handleClose={handleCloseAddEntryModal}
+          entries={entries}
+          setEntries={setEntries}
         />
         <Form.Select className="maxw-400">
-          <option>Default select1</option>
-          <option>Default select2</option>
+          {entries.map((entry) => (
+            <option key={entry.month}>{entry.month}</option>
+          ))}
         </Form.Select>
       </div>
     </div>
