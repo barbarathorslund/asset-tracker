@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
@@ -12,6 +12,7 @@ interface TrackerProps {
 }
 
 const Tracker = ({ entries, setEntries, assetTypes }: TrackerProps) => {
+  const [currentMonth, setCurrentMonth] = useState(entries[0].month);
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
@@ -32,8 +33,15 @@ const Tracker = ({ entries, setEntries, assetTypes }: TrackerProps) => {
           handleClose={handleCloseAddEntryModal}
           entries={entries}
           setEntries={setEntries}
+          setCurrentMonth={setCurrentMonth}
         />
-        <Form.Select className="maxw-400">
+        <Form.Select
+          className="maxw-400"
+          value={currentMonth}
+          onChange={(e) => {
+            setCurrentMonth(e.target.value);
+          }}
+        >
           {entries?.map((entry) => (
             <option key={entry.month}>{entry.month}</option>
           ))}

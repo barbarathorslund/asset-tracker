@@ -11,10 +11,11 @@ export interface Entries {
 export const ModeTab = () => {
   const [assetTypes, setAssetTypes] = useState(["Savings", "Investments"]);
   const [entries, setEntries] = useState<Entries[]>([
-    { month: "2023-02" },
+    { month: "2021-05" },
     { month: "2023-01" },
+    { month: "2023-02" },
+    { month: "2022-05" },
   ]);
-  const [currentMonth, setCurrentMonth] = useState("");
 
   return (
     <Tabs

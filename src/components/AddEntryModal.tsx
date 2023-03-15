@@ -8,9 +8,16 @@ interface ModalProps {
   handleClose: () => void;
   entries: Entries[];
   setEntries: Dispatch<SetStateAction<Entries[]>>;
+  setCurrentMonth: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const EntryModal = ({ show, handleClose, entries, setEntries }: ModalProps) => {
+const EntryModal = ({
+  show,
+  handleClose,
+  entries,
+  setEntries,
+  setCurrentMonth,
+}: ModalProps) => {
   const [entryMonth, setEntryMonth] = useState("");
 
   const getCurrentMonth = () => {
@@ -25,6 +32,15 @@ const EntryModal = ({ show, handleClose, entries, setEntries }: ModalProps) => {
     return entries.some(function (el) {
       return el.month === month;
     });
+  }
+
+  function sortEntries(entries: Entries[]) {
+    const sorted = [...entries].sort((a: Entries, b: Entries) => {
+      let date1 = new Date(a.month) as any;
+      let date2 = new Date(b.month) as any;
+      return date2 - date1;
+    });
+    return sorted;
   }
 
   return (
@@ -51,8 +67,11 @@ const EntryModal = ({ show, handleClose, entries, setEntries }: ModalProps) => {
           variant="primary"
           onClick={() => {
             if (!monthExists(entryMonth)) {
-              setEntries((prevArray) => [{ month: entryMonth }, ...prevArray]);
+              setEntries((prevArray) =>
+                sortEntries([{ month: entryMonth }, ...prevArray])
+              );
             }
+            setCurrentMonth(entryMonth);
             handleClose();
           }}
         >
