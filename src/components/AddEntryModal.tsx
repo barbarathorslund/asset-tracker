@@ -51,7 +51,7 @@ const EntryModal = ({ show, handleClose, entries, setEntries }: ModalProps) => {
           variant="primary"
           onClick={() => {
             if (!monthExists(entryMonth)) {
-              setEntries((prevArray) => [...prevArray, { month: entryMonth }]);
+              setEntries((prevArray) => [{ month: entryMonth }, ...prevArray]);
             }
             handleClose();
           }}

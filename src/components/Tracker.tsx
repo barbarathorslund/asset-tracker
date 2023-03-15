@@ -3,13 +3,15 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
 import { Entries } from "./ModeTab";
+import AssetCard from "./AssetCard";
 
 interface TrackerProps {
   entries: Entries[];
   setEntries: Dispatch<SetStateAction<Entries[]>>;
+  assetTypes: string[];
 }
 
-const Tracker = ({ entries, setEntries }: TrackerProps) => {
+const Tracker = ({ entries, setEntries, assetTypes }: TrackerProps) => {
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
@@ -32,11 +34,14 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
           setEntries={setEntries}
         />
         <Form.Select className="maxw-400">
-          {entries.map((entry) => (
+          {entries?.map((entry) => (
             <option key={entry.month}>{entry.month}</option>
           ))}
         </Form.Select>
       </div>
+      {assetTypes.map((type) => (
+        <AssetCard title={type} key={type} />
+      ))}
     </div>
   );
 };
