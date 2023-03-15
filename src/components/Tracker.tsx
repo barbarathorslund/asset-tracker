@@ -1,33 +1,36 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
 import { Entries } from "./ModeTab";
 import AssetCard from "./AssetCard";
+import DropDownMenu from "./DropDownMenu";
 
 interface TrackerProps {
   entries: Entries[];
   setEntries: Dispatch<SetStateAction<Entries[]>>;
-  assetTypes: string[];
 }
 
-const Tracker = ({ entries, setEntries, assetTypes }: TrackerProps) => {
+const Tracker = ({ entries, setEntries }: TrackerProps) => {
   const [currentMonth, setCurrentMonth] = useState(entries[0].month);
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
   const handleShowAddEntryModal = () => setShowAddEntryModal(true);
 
+  const renderEntryAssetCards = (entry: Entries) => {
+    return Object.keys(entry.assets as object).map((key) => (
+      <AssetCard
+        title={key}
+        currentMonth={currentMonth}
+        key={key}
+        entries={entries}
+      />
+    ));
+  };
+
   return (
-    <div>
+    <>
       <div className="d-flex border-bottom p-4">
-        <Button
-          onClick={handleShowAddEntryModal}
-          variant="outline-primary"
-          className="me-2"
-        >
-          +
-        </Button>
         <AddEntryModal
           show={showAddEntryModal}
           handleClose={handleCloseAddEntryModal}
@@ -46,11 +49,20 @@ const Tracker = ({ entries, setEntries, assetTypes }: TrackerProps) => {
             <option key={entry.month}>{entry.month}</option>
           ))}
         </Form.Select>
+        <DropDownMenu handleShowAddEntryModal={handleShowAddEntryModal} />
       </div>
-      {assetTypes.map((type) => (
-        <AssetCard title={type} key={type} />
-      ))}
-    </div>
+      {entries ? (
+        entries.map((entry) => {
+          if (entry.month === currentMonth) {
+            return renderEntryAssetCards(entry);
+          } else {
+            return null;
+          }
+        })
+      ) : (
+        <div>No entries</div>
+      )}
+    </>
   );
 };
 

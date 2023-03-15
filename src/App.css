@@ -15,3 +15,7 @@ input:disabled {
     border: 2px solid transparent;
     color: black !important;
 }
+
+.dropdown-toggle::after {
+    display: none !important;
+}

@@ -6,15 +6,17 @@ import Tracker from "./Tracker";
 
 export interface Entries {
   month: string;
+  assets?: {
+    [key: string]: number;
+  };
 }
 
 export const ModeTab = () => {
-  const [assetTypes, setAssetTypes] = useState(["Savings", "Investments"]);
   const [entries, setEntries] = useState<Entries[]>([
-    { month: "2021-05" },
-    { month: "2023-01" },
-    { month: "2023-02" },
-    { month: "2022-05" },
+    { month: "2021-05", assets: { Savings: 1, Investments: 1 } },
+    { month: "2023-01", assets: { Savings: 1, Investments: 1 } },
+    { month: "2023-02", assets: { Savings: 1, Investments: 1 } },
+    { month: "2022-05", assets: { Savings: 1, Investments: 1 } },
   ]);
 
   return (
@@ -27,11 +29,7 @@ export const ModeTab = () => {
         <Summary />
       </Tab>
       <Tab eventKey="tracker" title="Tracker">
-        <Tracker
-          entries={entries}
-          setEntries={setEntries}
-          assetTypes={assetTypes}
-        />
+        <Tracker entries={entries} setEntries={setEntries} />
       </Tab>
     </Tabs>
   );

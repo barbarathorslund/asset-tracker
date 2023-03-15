@@ -68,6 +68,7 @@ const EntryModal = ({
           onClick={() => {
             if (!monthExists(entryMonth)) {
               setEntries((prevArray) =>
+                // Contruct new entry, merge with old entries and sort
                 sortEntries([{ month: entryMonth }, ...prevArray])
               );
             }
