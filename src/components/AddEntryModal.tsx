@@ -43,6 +43,14 @@ const EntryModal = ({
     return sorted;
   }
 
+  const getNewEntryObject = () => {
+    let assets: { [key: string]: number } = {};
+    Object.keys(entries[1].assets as object).forEach((asset: string) => {
+      assets[asset] = 0;
+    });
+    return { month: entryMonth, assets };
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <form>
@@ -73,7 +81,7 @@ const EntryModal = ({
                 e.preventDefault();
                 setEntries((prevArray) =>
                   // Contruct new entry, merge with old entries and sort
-                  sortEntries([{ month: entryMonth }, ...prevArray])
+                  sortEntries([getNewEntryObject(), ...prevArray])
                 );
                 setCurrentMonth(entryMonth);
                 handleClose();
