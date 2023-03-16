@@ -45,40 +45,45 @@ const EntryModal = ({
 
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <form className="d-flex flex-column mx-3 mb-4">
-          <label>Month</label>
-          <input
-            onChange={(e) => setEntryMonth(e.target.value)}
-            type="month"
-            id="entryMonth"
-            max={getCurrentMonth()}
-          />
-        </form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            if (!monthExists(entryMonth)) {
-              setEntries((prevArray) =>
-                // Contruct new entry, merge with old entries and sort
-                sortEntries([{ month: entryMonth }, ...prevArray])
-              );
-            }
-            setCurrentMonth(entryMonth);
-            handleClose();
-          }}
-        >
-          Add entry
-        </Button>
-      </Modal.Footer>
+      <form>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="d-flex flex-column mx-3 mb-4">
+            <label>Month</label>
+            <input
+              onChange={(e) => setEntryMonth(e.target.value)}
+              type="month"
+              id="entryMonth"
+              max={getCurrentMonth()}
+              required
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={(e) => {
+              if (entryMonth && !monthExists(entryMonth)) {
+                e.preventDefault();
+                setEntries((prevArray) =>
+                  // Contruct new entry, merge with old entries and sort
+                  sortEntries([{ month: entryMonth }, ...prevArray])
+                );
+                setCurrentMonth(entryMonth);
+                handleClose();
+              }
+            }}
+          >
+            Add entry
+          </Button>
+        </Modal.Footer>
+      </form>
     </Modal>
   );
 };

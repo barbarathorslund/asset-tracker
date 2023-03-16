@@ -53,7 +53,7 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
       </div>
       {entries ? (
         entries.map((entry) => {
-          if (entry.month === currentMonth) {
+          if (entry.month === currentMonth && entry.assets) {
             return renderEntryAssetCards(entry);
           } else {
             return null;
