@@ -19,6 +19,7 @@ const EntryModal = ({
   setCurrentMonth,
 }: ModalProps) => {
   const [entryMonth, setEntryMonth] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const getCurrentMonth = () => {
     const d = new Date();
@@ -65,26 +66,39 @@ const EntryModal = ({
               type="month"
               id="entryMonth"
               max={getCurrentMonth()}
-              required
             />
+            {showMessage && (
+              <span className="text-danger">
+                Select a valid month with no pre-existing entries
+              </span>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleClose();
+              setShowMessage(false);
+            }}
+          >
             Close
           </Button>
           <Button
             variant="primary"
             type="submit"
             onClick={(e) => {
+              e.preventDefault();
               if (entryMonth && !monthExists(entryMonth)) {
-                e.preventDefault();
                 setEntries((prevArray) =>
                   // Contruct new entry, merge with old entries and sort
                   sortEntries([getNewEntryObject(), ...prevArray])
                 );
                 setCurrentMonth(entryMonth);
                 handleClose();
+                setShowMessage(false);
+              } else {
+                setShowMessage(true);
               }
             }}
           >

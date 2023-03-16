@@ -24,6 +24,7 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
         currentMonth={currentMonth}
         key={key}
         entries={entries}
+        setEntries={setEntries}
       />
     ));
   };
