@@ -12,7 +12,9 @@ export interface Entries {
 }
 
 export const ModeTab = () => {
-  const [entries, setEntries] = useState<Entries[]>([]);
+  const [entries, setEntries] = useState<Entries[]>([
+    { month: "01-2023", assets: { savings: "", investments: "" } },
+  ]);
 
   return (
     <Tabs

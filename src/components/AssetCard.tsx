@@ -55,6 +55,7 @@ const AssetCard = ({
         <Card.Body>
           <input
             type="tel"
+            id="asset-value"
             inputMode="numeric"
             pattern="[0-9]*"
             placeholder="Value"

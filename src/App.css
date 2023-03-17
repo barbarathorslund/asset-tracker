@@ -10,10 +10,16 @@
     max-width: 400px;
 }
 
-input:disabled {
+input#asset-value {
     background-color: unset;
-    border: 2px solid transparent;
-    color: black !important;
+    border-color: transparent;
+    color: #464e53;
+}
+input#asset-value:hover {
+    background-color: unset;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    color: black;
 }
 
 .dropdown-toggle::after {
