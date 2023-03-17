@@ -1,13 +1,16 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Card from "react-bootstrap/Card";
 import CloseButton from "react-bootstrap/CloseButton";
 import { Entries } from "./ModeTab";
+import RemoveAssetModal from "./RemoveAssetModal";
 
 interface AssetCardProps {
   title: string;
   currentMonth: string;
   entries: Entries[];
   setEntries: Dispatch<SetStateAction<Entries[]>>;
+  assetTypes: string[];
+  setAssetTypes: Dispatch<SetStateAction<string[]>>;
 }
 
 const AssetCard = ({
@@ -15,7 +18,19 @@ const AssetCard = ({
   currentMonth,
   entries,
   setEntries,
+  assetTypes,
+  setAssetTypes,
 }: AssetCardProps) => {
+  const [showRemoveAssetModal, setShowRemoveAssetModal] = useState(false);
+
+  const handleShowRemoveAssetModal = () => {
+    setShowRemoveAssetModal(true);
+  };
+
+  const handleCloseRemoveAssetModal = () => {
+    setShowRemoveAssetModal(false);
+  };
+
   const getAssetValue = () => {
     let currentMonthEntry = entries?.find(
       (entry) => entry.month === currentMonth
@@ -51,8 +66,20 @@ const AssetCard = ({
         <Card.Header>
           <div className="d-flex mb-0 justify-content-between align-items-center">
             <h5 id="asset-card-title">{title}</h5>
-            <CloseButton aria-label="Remove asset" />
+            <CloseButton
+              aria-label="Remove asset"
+              onClick={handleShowRemoveAssetModal}
+            />
           </div>
+          <RemoveAssetModal
+            show={showRemoveAssetModal}
+            handleClose={handleCloseRemoveAssetModal}
+            title={title}
+            entries={entries}
+            setEntries={setEntries}
+            assetTypes={assetTypes}
+            setAssetTypes={setAssetTypes}
+          />
         </Card.Header>
         <Card.Body>
           <input

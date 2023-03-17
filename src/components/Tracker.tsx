@@ -32,12 +32,6 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
 
   const [currentMonth, setCurrentMonth] = useState(setMostRecentMonth());
 
-  // useEffect(() => {
-  //   if (entries.length > 0) {
-  //     setCurrentMonth(entries[0].month);
-  //   }
-  // }, []);
-
   const renderEntryAssetCards = (entry: Entries) => {
     return Object.keys(entry.assets as object).map((key) => (
       <AssetCard
@@ -46,6 +40,8 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
         key={key}
         entries={entries}
         setEntries={setEntries}
+        assetTypes={assetTypes}
+        setAssetTypes={setAssetTypes}
       />
     ));
   };
