@@ -12,11 +12,27 @@ interface TrackerProps {
 }
 
 const Tracker = ({ entries, setEntries }: TrackerProps) => {
-  const [currentMonth, setCurrentMonth] = useState(entries[0].month);
+  const [assetTypes, setAssetTypes] = useState(["Savings", "Investments"]);
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
   const handleShowAddEntryModal = () => setShowAddEntryModal(true);
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
+
+  const setMostRecentMonth = () => {
+    if (entries.length > 0) {
+      return entries[0].month;
+    } else {
+      return "";
+    }
+  };
+
+  const [currentMonth, setCurrentMonth] = useState(setMostRecentMonth());
+
+  // useEffect(() => {
+  //   if (entries.length > 0) {
+  //     setCurrentMonth(entries[0].month);
+  //   }
+  // }, []);
 
   const renderEntryAssetCards = (entry: Entries) => {
     return Object.keys(entry.assets as object).map((key) => (
@@ -40,9 +56,13 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
             setCurrentMonth(e.target.value);
           }}
         >
-          {entries?.map((entry) => (
-            <option key={entry.month}>{entry.month}</option>
-          ))}
+          {entries.length > 0 ? (
+            entries?.map((entry) => (
+              <option key={entry.month}>{entry.month}</option>
+            ))
+          ) : (
+            <option>No entries</option>
+          )}
         </Form.Select>
         <DropDownMenu handleShowAddEntryModal={handleShowAddEntryModal} />
         <AddEntryModal
@@ -51,20 +71,17 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
           entries={entries}
           setEntries={setEntries}
           setCurrentMonth={setCurrentMonth}
+          assetTypes={assetTypes}
         />
       </div>
       <div style={{ maxWidth: "490px" }} className="d-flex flex-column m-1">
-        {entries ? (
-          entries.map((entry) => {
-            if (entry.month === currentMonth && entry.assets) {
-              return renderEntryAssetCards(entry);
-            } else {
-              return null;
-            }
-          })
-        ) : (
-          <div>No entries</div>
-        )}
+        {entries.map((entry) => {
+          if (entry.month === currentMonth && entry.assets) {
+            return renderEntryAssetCards(entry);
+          } else {
+            return null;
+          }
+        })}
         <Button
           style={{ width: "150px" }}
           className="align-self-center my-3"

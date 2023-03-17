@@ -29,7 +29,8 @@ const AssetCard = ({
         let assets: { [key: string]: string } = {};
         Object.entries(entry.assets as object).forEach(([key, val]) => {
           if (key === title) {
-            assets[key] = e.currentTarget.value;
+            // Set user input value, ensuring only numbers
+            assets[key] = e.currentTarget.value.replace(/\D/, "");
           } else {
             assets[key] = val;
           }
@@ -53,7 +54,7 @@ const AssetCard = ({
         </Card.Header>
         <Card.Body>
           <input
-            type="text"
+            type="tel"
             inputMode="numeric"
             pattern="[0-9]*"
             placeholder="Value"

@@ -9,6 +9,7 @@ interface ModalProps {
   entries: Entries[];
   setEntries: Dispatch<SetStateAction<Entries[]>>;
   setCurrentMonth: React.Dispatch<React.SetStateAction<string>>;
+  assetTypes: string[];
 }
 
 const EntryModal = ({
@@ -17,6 +18,7 @@ const EntryModal = ({
   entries,
   setEntries,
   setCurrentMonth,
+  assetTypes,
 }: ModalProps) => {
   const [entryMonth, setEntryMonth] = useState("");
   const [showMessage, setShowMessage] = useState(false);
@@ -46,7 +48,7 @@ const EntryModal = ({
 
   const getNewEntryObject = () => {
     let assets: { [key: string]: string } = {};
-    Object.keys(entries[1].assets as object).forEach((asset: string) => {
+    assetTypes.forEach((asset: string) => {
       assets[asset] = "";
     });
     return { month: entryMonth, assets };

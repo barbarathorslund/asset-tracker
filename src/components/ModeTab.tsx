@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Summary from "./Summary";
@@ -12,12 +12,7 @@ export interface Entries {
 }
 
 export const ModeTab = () => {
-  const [entries, setEntries] = useState<Entries[]>([
-    { month: "2021-05", assets: { Savings: "0", Investments: "" } },
-    { month: "2023-01", assets: { Savings: "0", Investments: "0" } },
-    { month: "2023-02", assets: { Savings: "0", Investments: "0" } },
-    { month: "2022-05", assets: { Savings: "0", Investments: "0" } },
-  ]);
+  const [entries, setEntries] = useState<Entries[]>([]);
 
   return (
     <Tabs
