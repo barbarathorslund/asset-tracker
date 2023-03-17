@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
 import { Entries } from "./ModeTab";
 import AssetCard from "./AssetCard";
@@ -14,8 +15,8 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
   const [currentMonth, setCurrentMonth] = useState(entries[0].month);
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
 
-  const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
   const handleShowAddEntryModal = () => setShowAddEntryModal(true);
+  const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
 
   const renderEntryAssetCards = (entry: Entries) => {
     return Object.keys(entry.assets as object).map((key) => (
@@ -32,13 +33,6 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
   return (
     <>
       <div className="d-flex border-bottom p-4">
-        <AddEntryModal
-          show={showAddEntryModal}
-          handleClose={handleCloseAddEntryModal}
-          entries={entries}
-          setEntries={setEntries}
-          setCurrentMonth={setCurrentMonth}
-        />
         <Form.Select
           className="maxw-400"
           value={currentMonth}
@@ -51,18 +45,34 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
           ))}
         </Form.Select>
         <DropDownMenu handleShowAddEntryModal={handleShowAddEntryModal} />
+        <AddEntryModal
+          show={showAddEntryModal}
+          handleClose={handleCloseAddEntryModal}
+          entries={entries}
+          setEntries={setEntries}
+          setCurrentMonth={setCurrentMonth}
+        />
       </div>
-      {entries ? (
-        entries.map((entry) => {
-          if (entry.month === currentMonth && entry.assets) {
-            return renderEntryAssetCards(entry);
-          } else {
-            return null;
-          }
-        })
-      ) : (
-        <div>No entries</div>
-      )}
+      <div style={{ maxWidth: "490px" }} className="d-flex flex-column m-1">
+        {entries ? (
+          entries.map((entry) => {
+            if (entry.month === currentMonth && entry.assets) {
+              return renderEntryAssetCards(entry);
+            } else {
+              return null;
+            }
+          })
+        ) : (
+          <div>No entries</div>
+        )}
+        <Button
+          style={{ width: "150px" }}
+          className="align-self-center my-3"
+          variant="primary"
+        >
+          + Add asset
+        </Button>
+      </div>
     </>
   );
 };

@@ -45,9 +45,9 @@ const EntryModal = ({
   }
 
   const getNewEntryObject = () => {
-    let assets: { [key: string]: number } = {};
+    let assets: { [key: string]: string } = {};
     Object.keys(entries[1].assets as object).forEach((asset: string) => {
-      assets[asset] = 0;
+      assets[asset] = "";
     });
     return { month: entryMonth, assets };
   };

@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Card from "react-bootstrap/Card";
 import { Entries } from "./ModeTab";
 
@@ -15,14 +15,21 @@ const AssetCard = ({
   entries,
   setEntries,
 }: AssetCardProps) => {
+  const getAssetValue = () => {
+    let currentMonthEntry = entries?.find(
+      (entry) => entry.month === currentMonth
+    );
+    return currentMonthEntry?.assets?.[title];
+  };
+
   const changeAssetValue = (e: React.FormEvent<HTMLInputElement>) => {
     return entries.map((entry) => {
       if (entry.month === currentMonth) {
         // get changed asset object
-        let assets: { [key: string]: number } = {};
+        let assets: { [key: string]: string } = {};
         Object.entries(entry.assets as object).forEach(([key, val]) => {
           if (key === title) {
-            assets[key] = Number(e.currentTarget.value);
+            assets[key] = e.currentTarget.value;
           } else {
             assets[key] = val;
           }
@@ -37,7 +44,7 @@ const AssetCard = ({
   };
 
   return (
-    <Card style={{ maxWidth: "444px" }} className="m-4">
+    <Card className="m-3">
       <form>
         <Card.Header>
           <div className="d-flex mb-0 justify-content-between">
@@ -46,8 +53,11 @@ const AssetCard = ({
         </Card.Header>
         <Card.Body>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             placeholder="Value"
+            value={getAssetValue()}
             onChange={(e) => {
               setEntries(changeAssetValue(e));
             }}
