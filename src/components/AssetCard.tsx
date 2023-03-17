@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Card from "react-bootstrap/Card";
+import CloseButton from "react-bootstrap/CloseButton";
 import { Entries } from "./ModeTab";
 
 interface AssetCardProps {
@@ -48,8 +49,9 @@ const AssetCard = ({
     <Card className="m-3">
       <form>
         <Card.Header>
-          <div className="d-flex mb-0 justify-content-between">
-            <Card.Title>{title}</Card.Title>
+          <div className="d-flex mb-0 justify-content-between align-items-center">
+            <h5 id="asset-card-title">{title}</h5>
+            <CloseButton aria-label="Remove asset" />
           </div>
         </Card.Header>
         <Card.Body>

@@ -8,7 +8,7 @@ interface DropDownMenuProps {
 const DropDownMenu = ({ handleShowAddEntryModal }: DropDownMenuProps) => {
   return (
     <DropdownButton
-      variant="outline-primary"
+      variant="primary"
       align="end"
       title="..."
       id="dropdown-menu-align-end"

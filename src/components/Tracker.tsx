@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
+import AddAssetModal from "./AddAssetModal";
 import { Entries } from "./ModeTab";
 import AssetCard from "./AssetCard";
 import DropDownMenu from "./DropDownMenu";
@@ -14,9 +15,12 @@ interface TrackerProps {
 const Tracker = ({ entries, setEntries }: TrackerProps) => {
   const [assetTypes, setAssetTypes] = useState(["Savings", "Investments"]);
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
+  const [showAddAssetModal, setShowAddAssetModal] = useState(false);
 
   const handleShowAddEntryModal = () => setShowAddEntryModal(true);
   const handleCloseAddEntryModal = () => setShowAddEntryModal(false);
+  const handleShowAddAssetModal = () => setShowAddAssetModal(true);
+  const handleCloseAddAssetModal = () => setShowAddAssetModal(false);
 
   const setMostRecentMonth = () => {
     if (entries.length > 0) {
@@ -85,10 +89,19 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
         <Button
           style={{ width: "150px" }}
           className="align-self-center my-3"
-          variant="primary"
+          variant="outline-primary"
+          onClick={handleShowAddAssetModal}
         >
           + Add asset
         </Button>
+        <AddAssetModal
+          show={showAddAssetModal}
+          handleClose={handleCloseAddAssetModal}
+          assetTypes={assetTypes}
+          setAssetTypes={setAssetTypes}
+          entries={entries}
+          setEntries={setEntries}
+        />
       </div>
     </>
   );

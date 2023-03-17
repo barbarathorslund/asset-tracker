@@ -64,7 +64,7 @@ const EntryModal = ({
           <div className="d-flex flex-column mx-3 mb-4">
             <label>Month</label>
             <input
-              onChange={(e) => setEntryMonth(e.target.value)}
+              onChange={(e) => setEntryMonth(e.currentTarget.value)}
               type="month"
               id="entryMonth"
               max={getCurrentMonth()}
