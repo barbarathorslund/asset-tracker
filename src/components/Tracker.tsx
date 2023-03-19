@@ -64,7 +64,13 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
             <option>No entries</option>
           )}
         </Form.Select>
-        <DropDownMenu handleShowAddEntryModal={handleShowAddEntryModal} />
+        <DropDownMenu
+          handleShowAddEntryModal={handleShowAddEntryModal}
+          entries={entries}
+          setEntries={setEntries}
+          currentMonth={currentMonth}
+          setCurrentMonth={setCurrentMonth}
+        />
         <AddEntryModal
           show={showAddEntryModal}
           handleClose={handleCloseAddEntryModal}
