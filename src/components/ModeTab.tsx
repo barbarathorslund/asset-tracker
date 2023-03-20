@@ -12,9 +12,7 @@ export interface Entries {
 }
 
 export const ModeTab = () => {
-  const [entries, setEntries] = useState<Entries[]>([
-    { month: "2023-01", assets: { Savings: "", Investments: "" } },
-  ]);
+  const [entries, setEntries] = useState<Entries[]>([]);
 
   return (
     <Tabs
@@ -23,7 +21,7 @@ export const ModeTab = () => {
       className="mt-3"
     >
       <Tab eventKey="summary" title="Summary">
-        <Summary />
+        <Summary entries={entries} />
       </Tab>
       <Tab eventKey="tracker" title="Tracker">
         <Tracker entries={entries} setEntries={setEntries} />
