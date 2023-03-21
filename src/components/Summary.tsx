@@ -1,40 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Entries } from "./ModeTab";
+import LineChart from "./LineChart";
 
 interface SummaryProps {
   entries: Entries[];
 }
 
 const Summary = ({ entries }: SummaryProps) => {
+  const [chartDatasets, setChartDatasets] = useState([]);
+
   useEffect(() => {
     if (entries.length > 0) {
-      parseData();
+      setChartDatasets(parseData());
     }
   }, [entries]);
 
   const parseData = () => {
-    let datasets: any = [];
-
-    // Set assets
-    Object.keys(entries[0].assets as Object).forEach((asset) => {
-      let obj = { [asset]: [] };
-      datasets.push(obj);
-    });
-
-    // Set datapoints
-    entries.forEach((entry) => {
-      datasets.forEach((dataset: Object) => {
-        Object.values(dataset)[0].push({
-          t: entry.month,
-          y: Number(entry.assets?.[Object.keys(dataset)[0]]),
-        });
-      });
-    });
-
-    return datasets;
+    return (entries as any)
+      .map((entry: any) =>
+        Object.keys(entry.assets).map((asset) => {
+          return {
+            name: asset,
+            x: entry.month,
+            y: Number(entry.assets[asset]),
+          };
+        })
+      )
+      .flat();
   };
 
-  return <div>Summary</div>;
+  return (
+    <div className="summary d-flex justify-content-center align-items-center">
+      <div className="chart-container m-4">
+        <LineChart chartDatasets={chartDatasets} />
+      </div>
+    </div>
+  );
 };
 
 export default Summary;

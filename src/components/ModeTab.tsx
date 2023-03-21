@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import Summary from "./Summary";
@@ -12,7 +12,15 @@ export interface Entries {
 }
 
 export const ModeTab = () => {
-  const [entries, setEntries] = useState<Entries[]>([]);
+  const [entries, setEntries] = useState<Entries[]>(() => {
+    const saved = localStorage.getItem("entries") as string;
+    const initialValue = JSON.parse(saved);
+    return initialValue || [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("entries", JSON.stringify(entries));
+  }, [entries]);
 
   return (
     <Tabs

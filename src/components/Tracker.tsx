@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import AddEntryModal from "./AddEntryModal";
@@ -13,7 +13,12 @@ interface TrackerProps {
 }
 
 const Tracker = ({ entries, setEntries }: TrackerProps) => {
-  const [assetTypes, setAssetTypes] = useState(["Savings", "Investments"]);
+  const [assetTypes, setAssetTypes] = useState(() => {
+    const saved = localStorage.getItem("assetTypes") as string;
+    const initialValue = JSON.parse(saved);
+    return initialValue || ["Savings", "Investments"];
+  });
+
   const [showAddEntryModal, setShowAddEntryModal] = useState(false);
   const [showAddAssetModal, setShowAddAssetModal] = useState(false);
 
@@ -31,6 +36,10 @@ const Tracker = ({ entries, setEntries }: TrackerProps) => {
   };
 
   const [currentMonth, setCurrentMonth] = useState(setMostRecentMonth());
+
+  useEffect(() => {
+    localStorage.setItem("assetTypes", JSON.stringify(assetTypes));
+  }, [assetTypes]);
 
   const renderEntryAssetCards = (entry: Entries) => {
     return Object.keys(entry.assets as object).map((key) => (
